@@ -10,6 +10,14 @@ article = soup.find('article')
 
 title = article.h1.text
 
-ulli = article.ul.li.text
+ingredients = set()
+li = soup.find_all('li')
+#currently getting instruction
+#currently getting comments too
 
-print(ulli, title)
+for l in li:
+    ingredients.add(l)
+    print(l)
+# this gave instructions
+# how do I get only ingredients?
+ulli = article.ul.li.text
