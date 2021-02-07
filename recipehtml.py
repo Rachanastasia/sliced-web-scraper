@@ -17,15 +17,19 @@ def parse_li_tags(lis): # parses list of <li>s
         number = re.search(r'^\d', t)
         if number: return True
 
+    from_to = set()
     i=0 #track index
     for l in lis: 
         i+=1
         for unit in valid_units: #li tags with digits and valid types
-            has_unit = re.search(f'{unit}', l.text)
+            has_unit = re.search(f'{unit}', l.text.lower())
             if has_unit:
                 if is_digit(l.text) == True:
+                    from_to.add(i)
                     print(f'INGREDIENT: {l.text}')
 
+    print(from_to)
+        
 
 
 
