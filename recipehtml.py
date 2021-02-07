@@ -13,15 +13,19 @@ def get_web_content(url):
 def parse_li_tags(lis):
     valid_units = {'tsp', 'tbsp', 'tablespoon', 'tablespoons', 'teaspoons', 'cup', 'cups'}
     
+    def is_digit(t):
+        number = re.search(r'^\d', t)
+        if number: return True
+
     digit = re.compile('\d')
+    i=0
     for l in lis: 
-        number = re.search(r'^\d', l.text)
-        if number:
-            print(number.group())
+        i+=1
         for unit in valid_units:
             has_unit = re.search(f'{unit}', l.text)
             if has_unit:
-                print(has_unit.group())
+                if is_digit(l.text) == True:
+                    print(f'INGREDIENT: {l.text}')
 
 def generate_recipes():
     d = open('recipe-links.json', )
