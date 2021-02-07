@@ -4,18 +4,24 @@ from bs4 import BeautifulSoup
 import requests
 
 
+
 def get_web_content(url):
     source = requests.get(url).text
     soup = BeautifulSoup(source, 'lxml')
     return soup
 
 def parse_li_tags(lis):
-    # could next be a number?
+    valid_units = {'tsp', 'tbsp', 'tablespoon', 'tablespoons', 'teaspoons', 'cup', 'cups'}
+    
+    digit = re.compile('\d')
     for l in lis: 
-        # check if number 
-        # check if next is valid type
-        # check against enum for units
-        
+        number = re.search(r'^\d', l.text)
+        if number:
+            print(number.group())
+        for unit in valid_units:
+            has_unit = re.search(f'{unit}', l.text)
+            if has_unit:
+                print(has_unit.group())
 
 def generate_recipes():
     d = open('recipe-links.json', )
