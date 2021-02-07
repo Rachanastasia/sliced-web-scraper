@@ -4,30 +4,32 @@ from bs4 import BeautifulSoup
 import requests
 
 
-
-def get_web_content(url):
+def get_web_content(url): # makes soup
     source = requests.get(url).text
     soup = BeautifulSoup(source, 'lxml')
     return soup
 
-def parse_li_tags(lis):
+
+def parse_li_tags(lis): # parses list of <li>s
     valid_units = {'tsp', 'tbsp', 'tablespoon', 'tablespoons', 'teaspoons', 'cup', 'cups'}
     
     def is_digit(t):
         number = re.search(r'^\d', t)
         if number: return True
 
-    digit = re.compile('\d')
-    i=0
+    i=0 #track index
     for l in lis: 
         i+=1
-        for unit in valid_units:
+        for unit in valid_units: #li tags with digits and valid types
             has_unit = re.search(f'{unit}', l.text)
             if has_unit:
                 if is_digit(l.text) == True:
                     print(f'INGREDIENT: {l.text}')
 
-def generate_recipes():
+
+
+
+def generate_recipes(): # gets soup for every recipe in JSON
     d = open('recipe-links.json', )
     data = json.load(d)
 
@@ -44,7 +46,6 @@ def generate_recipes():
             return
         
         parse_li_tags(li)
-        #re.compile('[a-z]+')
 
 
 
